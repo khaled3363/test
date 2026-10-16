@@ -35,10 +35,28 @@ header{display:grid;gap:10px}
 .pipe{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:20px}
 .pipe div{border:1px solid var(--line);background:var(--panel);padding:12px 14px;border-radius:4px;min-width:0}
 .pipe .eyebrow{display:block;margin-bottom:4px}
+
+/* flows */
+.flow{border:1px solid var(--line);background:var(--panel);border-radius:4px;margin-top:14px;padding:14px 16px}
+.flow .fh{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline}
+.flow .fh .who{font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+.flow .goal{color:var(--ink-2);font-size:14px;margin-top:4px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-top:12px;counter-reset:st}
+.step{border-top:2px solid var(--line-2);padding-top:8px;min-width:0;position:relative}
+.step::before{counter-increment:st;content:counter(st);font-family:var(--mono);font-size:11px;color:var(--ink-3);position:absolute;right:0;top:-18px}
+.step b{display:block;font-weight:600;font-size:14px}
+.step p{font-size:13px;color:var(--ink-2);margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.chip{font-family:var(--mono);font-size:11px;padding:1px 6px;border-radius:3px;border:1px solid var(--line-2);color:var(--ink-2);white-space:nowrap}
+.chip.w{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.chip.w::after{content:" ✎"}
+.chip.r::after{content:" ⟳";opacity:.6}
 /* map */
 .map{position:relative;margin-top:20px}
 .map svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:56px 36px;position:relative;z-index:1}
+#card-series{grid-column:2}
+@media (max-width:900px){#card-series{grid-column:auto}}
 @media (max-width:900px){.grid{grid-template-columns:repeat(2,1fr);gap:40px 24px}}
 @media (max-width:560px){.grid{grid-template-columns:1fr;gap:28px}}
 .card{background:var(--panel);border:1px solid var(--line-2);border-radius:4px;padding:0;min-width:0;box-shadow:0 1px 0 var(--line)}
@@ -94,10 +112,10 @@ a{color:var(--accent)}
 
 <div class="wrap">
 <header>
-  <span class="eyebrow">Offispace · AI design library · Airtable plan · draft 1 · 16 Oct 2026</span>
+  <span class="eyebrow">Offispace · AI design library · Airtable plan · draft 2 · 16 Oct 2026</span>
   <h1>Offispace Typicals Base</h1>
   <p class="lede">One Airtable base that holds the standard assemblies (typicals), the generic pieces they are built from, the supplier articles that implement each piece, and the archive projects that prove which ones are typical. Designers browse it; the AI layout skill and the pCon handover read from it.</p>
-  <div class="facts"><span><b>9</b> tables</span><span><b>3</b> junctions</span><span>seeded from <b>85</b> generics · <b>26</b> typicals · <b>934</b> archive products · <b>77</b> projects</span><span>source: <b>Dropbox/Offispace/AI/design-library</b></span></div>
+  <div class="facts"><span><b>7</b> tables</span><span><b>2</b> junctions</span><span><b>4</b> flows</span><span>seeded from <b>85</b> generics · <b>26</b> typicals · <b>934</b> archive products · <b>77</b> projects</span><span>source: <b>Dropbox/Offispace/AI/design-library</b></span></div>
 </header>
 
 <h2>Where it sits</h2>
@@ -108,8 +126,56 @@ a{color:var(--accent)}
   <div><span class="eyebrow">Out</span><b>Design and quoting</b><br><span class="src">AI test-fit picks typical codes · pCon handover workbook from the mapping · back-tests compare delivered projects</span></div>
 </div>
 
+
+<h2>Flows the base serves</h2>
+<p class="sec-intro">Four flows touch the base. Every table and field below exists because one of these steps reads or writes it; chips show what each step reads (⟳) and writes (✎). Nothing else was added.</p>
+
+<div class="flow" style="--hue:var(--c-typ)">
+  <div class="fh"><h3>A · Design a test-fit</h3><span class="who">AI layout skill, then the designer</span></div>
+  <p class="goal">Turn a brief into a generic layout built only from confirmed typicals and generic codes.</p>
+  <div class="steps">
+    <div class="step"><b>Space programme</b><p>Headcount and room list from the brief; GOV minimum areas per typical.</p><div class="chips"><span class="chip r">Typicals</span></div></div>
+    <div class="step"><b>Pick typicals</b><p>Only Status = Confirmed; seats, envelope and area per seat decide the count.</p><div class="chips"><span class="chip r">Typicals</span><span class="chip r">Composition</span></div></div>
+    <div class="step"><b>Place generics</b><p>Dimensions and clear zones feed placement.csv for Blender or DXF.</p><div class="chips"><span class="chip r">Generics</span></div></div>
+    <div class="step"><b>Designer review</b><p>Opens the typicals gallery: plan render, pieces, geometry rules, open questions.</p><div class="chips"><span class="chip r">Typicals</span></div></div>
+  </div>
+</div>
+
+<div class="flow" style="--hue:var(--c-prod)">
+  <div class="fh"><h3>B · Rebuild in pCon and hand over</h3><span class="who">Designer, then the handover script</span></div>
+  <p class="goal">Swap every generic for a real article at the chosen tier and produce the pCon handover workbook.</p>
+  <div class="steps">
+    <div class="step"><b>Choose tier</b><p>Standard, Better or Best per project; a generic with no line at that tier is flagged.</p><div class="chips"><span class="chip r">Generic→Product</span></div></div>
+    <div class="step"><b>Article quantities</b><p>Generic qty × Qty per unit, summed per article. The script reads the CSV export; field names match the script's columns.</p><div class="chips"><span class="chip r">Generic→Product</span><span class="chip r">Products</span></div></div>
+    <div class="step"><b>Place in pCon</b><p>OFML variant code rebuilds the exact configuration; the designer notes the pCon check result.</p><div class="chips"><span class="chip r">Products</span><span class="chip w">Generic→Product</span></div></div>
+    <div class="step"><b>Export</b><p>Article list leaves pCon for quoting; prices never enter the base.</p><div class="chips"><span class="chip r">Products</span></div></div>
+  </div>
+</div>
+
+<div class="flow" style="--hue:var(--c-gen)">
+  <div class="fh"><h3>C · Confirm the catalogue</h3><span class="who">Design team, during the designer trial</span></div>
+  <p class="goal">Move typicals from Draft to Confirmed and mappings from Proposed to Confirmed, one review queue at a time.</p>
+  <div class="steps">
+    <div class="step"><b>Review queue</b><p>Views filtered on Status = Draft or Proposed, oldest first.</p><div class="chips"><span class="chip r">Typicals</span><span class="chip r">Generic→Product</span></div></div>
+    <div class="step"><b>Answer open questions</b><p>Finishes, 160-wide desktop, sit-stand series; answers live on the typical.</p><div class="chips"><span class="chip w">Typicals</span></div></div>
+    <div class="step"><b>Set tier and status</b><p>Each mapping line gets a tier and Confirmed by / on. Generics derive Mapping status from their lines, so nothing is set twice.</p><div class="chips"><span class="chip w">Generic→Product</span><span class="chip r">Generics</span></div></div>
+    <div class="step"><b>Write back</b><p>A script regenerates mapping/generic-to-product.csv and the typicals' product tables from the base.</p><div class="chips"><span class="chip r">Generic→Product</span><span class="chip r">Composition</span></div></div>
+  </div>
+</div>
+
+<div class="flow" style="--hue:var(--c-arch)">
+  <div class="fh"><h3>D · Refresh the archive evidence</h3><span class="who">Scripts, after each won project</span></div>
+  <p class="goal">Keep the "typical" flag honest: counts come from final drawings, never typed by hand.</p>
+  <div class="steps">
+    <div class="step"><b>Extract the DWG</b><p>batch_extract and audit_archive run as today; product-stats.csv is the hand-off.</p><div class="chips"><span class="chip w">Projects</span></div></div>
+    <div class="step"><b>Upsert products</b><p>New articles added, Projects (final) and Items (final) updated on products and series.</p><div class="chips"><span class="chip w">Products</span><span class="chip w">Series</span></div></div>
+    <div class="step"><b>Recompute flags</b><p>Typical = Projects (final) ≥ threshold; one-client products marked. Generics' archive counts roll up automatically.</p><div class="chips"><span class="chip r">Products</span><span class="chip r">Generics</span></div></div>
+    <div class="step"><b>Link evidence</b><p>A newly measured typical links to the project it came from.</p><div class="chips"><span class="chip w">Typicals</span><span class="chip r">Projects</span></div></div>
+  </div>
+</div>
+
 <h2>Relationship map</h2>
-<p class="sec-intro">Each card is a table. The top rows are its key fields; teal rows are links to another table, drawn as lines. A dot marks the primary field.</p>
+<p class="sec-intro">Seven tables, down from nine in draft 1. Manufacturers became a select on Series, Rules stayed in the markdown as text on each typical, and the Products ↔ Projects link became a multiple select on Products so the 934-row table needs no junction. Teal rows are links, drawn as lines; a dot marks the primary field.</p>
 <div class="map" id="map">
   <svg id="links" aria-hidden="true"></svg>
   <div class="grid" id="grid"></div>
@@ -119,7 +185,6 @@ a{color:var(--accent)}
   <span style="--hue:var(--c-gen)"><i></i>Generic pieces</span>
   <span style="--hue:var(--c-prod)"><i></i>Supplier products</span>
   <span style="--hue:var(--c-arch)"><i></i>Archive evidence</span>
-  <span style="--hue:var(--c-rule)"><i></i>Rules</span>
 </div>
 
 <h2>Tables and fields</h2>
@@ -127,144 +192,130 @@ a{color:var(--accent)}
 <div id="sheets"></div>
 
 <h2>Views and interfaces</h2>
+<p class="sec-intro">One interface page per flow, so a designer never sees fields that belong to another flow.</p>
 <div class="cols">
-  <div><h3>Typicals gallery</h3><ul><li>Gallery view on Typicals, cover = Plan render</li><li>Grouped by Family; filter Status = Confirmed for client work</li><li>Expanded record shows Composition lines and Products in use</li></ul></div>
-  <div><h3>Generic catalogue</h3><ul><li>Grid on Generics grouped by Category, sorted by Code</li><li>"Mapping gaps" view: Mapping status = TBD</li><li>"By others" view for fit-out, IT, plants, lighting</li></ul></div>
-  <div><h3>Product mapping</h3><ul><li>Grid on Generic→Product grouped by Generic</li><li>Kanban by Tier (Standard / Better / Best)</li><li>"Needs pCon check" filter on pCon check ≠ OK</li></ul></div>
-  <div><h3>Archive evidence</h3><ul><li>Series sorted by Projects (final), bar chart interface</li><li>Projects grouped by Deal status; sector to be filled</li><li>"Sofa &amp; lounge" view on Products filtered by Category</li></ul></div>
-  <div><h3>Designer interface</h3><ul><li>Page 1: pick a typical, see plan, pieces, products, rules</li><li>Page 2: confirm or edit a mapping, set tier, note the pCon article</li><li>Page 3: open questions per typical (from the markdown "Open questions")</li></ul></div>
+  <div><h3>A · Typicals gallery</h3><ul><li>Gallery on Typicals, cover = Plan render, grouped by Family</li><li>Filter Status = Confirmed for client work; Draft shown greyed for internal use</li><li>Record page: composition, generic dimensions, geometry rules, open questions</li></ul></div>
+  <div><h3>B · Handover sheet</h3><ul><li>Grid on Generic→Product grouped by Generic, filtered by chosen Tier</li><li>Columns in the handover script's order: code, manufacturer, series, article, description, qty_per_unit, tier, pcon_check, notes</li><li>"No line at this tier" view on Generics for gaps before export</li></ul></div>
+  <div><h3>C · Review queues</h3><ul><li>Typicals: Status = Draft, sorted by Family</li><li>Generic→Product: Status = Proposed, Kanban by Tier</li><li>Generics: Mapping status = TBD (derived), and By others for fit-out, IT, plants, lighting</li></ul></div>
+  <div><h3>D · Archive evidence</h3><ul><li>Series sorted by Projects (final) with a bar; Products with Typical = yes</li><li>"One client only" view: high item count, Projects (final) ≤ 1</li><li>Projects grouped by Deal status; Sector still to fill</li></ul></div>
 </div>
 
 <h2>Import plan</h2>
 <ol class="phases">
-  <li><div><b>Create the base and tables</b> in this order: Manufacturers, Series, Products, Generics, Typicals, Composition, Generic→Product, Projects, Rules. Links need the target table to exist first.</div></li>
-  <li><div><b>Load reference data from CSV.</b> Manufacturers and Series from <code>product-stats.csv</code> (aggregated), Products from <code>product-stats.csv</code> plus dimensions and prices from <code>data/catalog.csv</code>, Projects from <code>data/archive/projects.csv</code>.</div></li>
-  <li><div><b>Load the catalogue.</b> Generics from the tables in <code>generics/catalog.md</code> (85 rows), Generic→Product from <code>mapping/generic-to-product.csv</code> (75 rows), Typicals and Composition from the four <code>typicals/*.md</code> files (26 assemblies).</div></li>
+  <li><div><b>Create the base and tables</b> in this order: Series, Products, Projects, Generics, Generic→Product, Typicals, Composition. Links need the target table to exist first.</div></li>
+  <li><div><b>Load reference data from CSV.</b> Series aggregated from <code>product-stats.csv</code>, Products from <code>product-stats.csv</code> plus dimensions and prices from <code>data/catalog.csv</code>, Projects from <code>data/archive/projects.csv</code>. This is flow D run once.</div></li>
+  <li><div><b>Load the catalogue.</b> Generics from the tables in <code>generics/catalog.md</code> (85 rows), Generic→Product from <code>mapping/generic-to-product.csv</code> (75 rows, column for column), Typicals and Composition from the four <code>typicals/*.md</code> files (26 assemblies). Everything starts as Draft or Proposed.</div></li>
   <li><div><b>Attach images.</b> Plan render and isometric per typical and per generic. These can be generated from the catalogue dimensions, or taken from the Blender and pCon renders in <code>tests/</code>.</div></li>
-  <li><div><b>Build the interfaces</b> and hand the designer the trial protocol already in <code>review/designer-trial-protocol.md</code>. Every confirmation in Airtable is then written back to the markdown by a small script, so the AI skill and the base stay in step.</div></li>
+  <li><div><b>Build the four interface pages</b> and run flow C with the trial protocol already in <code>review/designer-trial-protocol.md</code>. The write-back script closes the loop so the AI skill reads the same confirmations.</div></li>
 </ol>
 <p class="note">All of steps 1 to 3 can be scripted through the Airtable connector in this session once you approve the schema. Nothing is created until then.</p>
 
 <h2>Decisions before building</h2>
-<div class="dec"><b>Which archive rule counts as "typical"?</b> The library's own analysis offers three: all drawing versions (A), final drawings only (B), or one vote per project (C). The schema stores B and C per series and product; the "Typical" flag on a product defaults to rule C ≥ 6 projects. Confirm the threshold.</div>
-<div class="dec"><b>Tiers.</b> Good / Better / Best per generic are TBD in the library. The base reserves a Tier field on each mapping line; the design team fills it.</div>
-<div class="dec"><b>Kastel is dropped</b> (Las Mobili replaces it, decision 2026-10-09). Kastel products stay in the archive tables for evidence but are marked Status = Replaced, and the SOFA-BOOTH-4 mapping starts empty.</div>
-<div class="dec"><b>Source of truth.</b> Recommended: Airtable is the master for mappings, tiers and typical status; the markdown stays the master for geometry rules and clearances until the base has proven itself in the designer trial.</div>
+<div class="dec"><b>Which archive rule counts as "typical"?</b> Rule C (one vote per project, finals only) with a threshold of 6 projects drives the Typical flag in flow D. Confirm the threshold.</div>
+<div class="dec"><b>Tiers.</b> Standard / Better / Best per mapping line, filled in flow C. Lines imported from the library carry Standard or Best; nothing is Better yet.</div>
+<div class="dec"><b>Removed from draft 1, to keep the base to the four flows.</b> Manufacturers table (now a select on Series, with the Kastel → Las Mobili note), Rules table (compliance stays with the skill and the markdown; each typical keeps its geometry rules as text), and X / Y / Rotation on Composition (placement lives in placement.csv, the plan render is an attachment).</div>
+<div class="dec"><b>Source of truth.</b> Airtable masters status, tier and mapping confirmations (flow C). The markdown masters dimensions, clearances and compliance rules. Flow D never edits by hand.</div>
 </div>
 
 <script>
 const T = [
- {id:'typicals',name:'Typicals',hue:'var(--c-typ)',n:'26 rows',role:'Standard assemblies measured from projects or set by the MHRSD guideline.',
+ {id:'typicals',name:'Typicals',hue:'var(--c-typ)',n:'26 rows',role:'Standard assemblies measured from projects or set by the MHRSD guideline. Read in flow A, confirmed in flow C.',
   fields:[
    ['Code','Single line text','primary · TYP-BENCH-6, MEET-8, OFF-GM, LOUNGE-SET-2','pk'],
    ['Name','Single line text','Bench cluster, 6 seats'],
    ['Family','Single select','Workstations · Meeting rooms · Offices · Lounge & café · Storage · Booths · Reception'],
-   ['Status','Single select','Draft · Confirmed · Retired (markdown says every typical is DRAFT today)'],
+   ['Status','Single select','Draft → In review → Confirmed → Retired (flow C)'],
    ['Source','Single select','[M] measured · [G] generic · [GOV] MHRSD'],
-   ['Measured from','Link → Projects','ALSAD, AlJazira Bank, Al Maarefa, 20221030','lk'],
+   ['Measured from','Link → Projects','ALSAD, AlJazira Bank, Al Maarefa, 20221030 (flow D)','lk'],
    ['Envelope W (m) / D (m)','Number (2 dp)','3.76 × 3.60'],
    ['Area (m²)','Formula','Envelope W × D'],
    ['Seats','Number','persons served'],
-   ['Area per seat (m²)','Formula','Area ÷ Seats'],
+   ['Area per seat (m²)','Formula','Area ÷ Seats, used by the space programme'],
    ['GOV minimum (m²)','Number','from the guideline where it gives one'],
-   ['Geometry rules','Long text','pitch, aisles, clear zones, placement'],
+   ['Geometry rules','Long text','pitch, aisles, clear zones, placement; copied from the typical file'],
    ['Composition','Link → Composition','one line per generic piece and quantity','lk'],
    ['Pieces (count)','Rollup','sum of Composition.Qty'],
-   ['Products in use','Lookup','through Composition → Generics → Generic→Product'],
-   ['Plan render','Attachment','scaled plan PNG'],
+   ['Plan render','Attachment','scaled plan PNG (gallery cover)'],
    ['Isometric render','Attachment','3D view PNG'],
-   ['pCon favorite','Single line text','TYP_BENCH_6, to be created in pCon'],
-   ['Open questions','Long text','from each typical file'],
-   ['Rules','Link → Rules','clearances and compliance items that apply','lk'],
+   ['pCon favorite','Single line text','TYP_BENCH_6, created in pCon during flow B'],
+   ['Open questions','Long text','answered in flow C'],
+   ['Confirmed by / on','Collaborator · Date','set when Status becomes Confirmed'],
   ]},
- {id:'composition',name:'Composition',hue:'var(--c-typ)',n:'≈ 150 rows',role:'Junction: which generic pieces a typical contains and how many.',
+ {id:'composition',name:'Composition',hue:'var(--c-typ)',n:'≈ 150 rows',role:'Junction: which generic pieces a typical contains and how many. Gives flow A its piece list and flow B its quantities.',
   fields:[
    ['Line','Formula','primary · Typical code + " · " + Generic code','pk'],
    ['Typical','Link → Typicals','','lk'],
    ['Generic','Link → Generics','','lk'],
-   ['Qty','Number','6 TC, 2 PANEL-109, "1–2" becomes min / max'],
-   ['Qty max','Number','optional upper bound'],
-   ['Placement','Single line text','"across each end of the bench", "under desk"'],
-   ['X / Y / Rotation','Number','optional, for the plan render (metres, degrees ccw)'],
+   ['Qty','Number','6 TC, 2 PANEL-109'],
+   ['Qty max','Number','upper bound where the file says "1–2"'],
    ['Optional','Checkbox','e.g. CRED-80 in MEET-6'],
+   ['Placement','Single line text','"across each end of the bench", "under desk"'],
+   ['Generic W / D / H','Lookup','so a typical\'s record page lists sizes without opening Generics'],
   ]},
- {id:'generics',name:'Generics',hue:'var(--c-gen)',n:'85 rows',role:'Generic furniture codes with dimensions and clearances. What the AI places and the designer boxes out.',
+ {id:'generics',name:'Generics',hue:'var(--c-gen)',n:'85 rows',role:'Generic furniture codes with dimensions and clearances. Placed in flow A; their mapping status is derived, never typed.',
   fields:[
    ['Code','Single line text','primary · WS-160, MT-8, LC, BOOTH-1','pk'],
    ['Name','Single line text','Single desk 160×80'],
-   ['Category','Single select','Workstations · Storage · Executive · Meeting & training · Booths & collaboration · Lounge & café · Reception & support · Lighting & decor · Render lighting'],
+   ['Category','Single select','Workstations · Storage · Executive · Meeting & training · Booths & collaboration · Lounge & café · Reception & support · Lighting & decor'],
    ['W / D / H (m)','Number (2 dp)','1.60 × 0.80 × 0.74'],
    ['Footprint (m²)','Formula','W × D'],
-   ['Shape','Single select','desk, chair, sofa, round table, cabinet, booth… drives the generated render'],
    ['Clear zone','Single line text','"0.80–1.00 behind", "1.00 in front"'],
    ['Source','Single select','[M] · [G] · [GOV]'],
    ['Seats','Number','for tables, sofas, benches'],
-   ['Mounting z (m)','Number','decor layer only'],
-   ['Notes','Long text','Oxi; EN 527 minimum top'],
-   ['Mapping status','Single select','pCon mapped · TBD · By others'],
+   ['Supplied by','Single select','Furniture (pCon) · By others (fit-out, IT, plants, lighting, AV)'],
    ['Mappings','Link → Generic→Product','articles that implement this piece','lk'],
-   ['Default series','Lookup','Series of the Standard-tier mapping'],
-   ['Archive projects','Rollup','max Projects (final) over linked series'],
+   ['Mapping status','Formula','Mapped if any line Confirmed · Proposed if lines exist · TBD if none (By others excluded)'],
+   ['Tiers covered','Rollup','distinct tiers over confirmed lines; flow B gap check'],
+   ['Archive projects','Rollup','max of Series projects (final) over mapped products'],
    ['Used in typicals','Link → Composition','reverse link','lk'],
    ['Render','Attachment','isometric PNG'],
-   ['Rules','Link → Rules','','lk'],
+   ['Notes','Long text','Oxi; EN 527 minimum top'],
   ]},
- {id:'mapping',name:'Generic→Product',hue:'var(--c-prod)',n:'75 rows',role:'Junction: which supplier article implements a generic, how many per unit, at which tier.',
+ {id:'mapping',name:'Generic→Product',hue:'var(--c-prod)',n:'75 rows',role:'Junction: which supplier article implements a generic, how many per unit, at which tier. The handover sheet of flow B and the review queue of flow C.',
   fields:[
    ['Line','Formula','primary · Generic code + " · " + Article','pk'],
-   ['Generic','Link → Generics','','lk'],
-   ['Product','Link → Products','','lk'],
-   ['Qty per unit','Number','6 desktops per BENCH-6'],
-   ['Tier','Single select','Standard · Better · Best (library: Standard / Best / TBD)'],
-   ['Source','Single select','pCon · TBD · By others'],
-   ['pCon check','Single line text','"OK in program oxi", "RENUMBERED: 1AG… codes"'],
-   ['Notes','Long text',''],
-   ['Confirmed by / on','Collaborator · Date','designer sign-off'],
+   ['Generic','Link → Generics','csv column: code','lk'],
+   ['Product','Link → Products','csv columns: manufacturer, series, article, description (lookups)','lk'],
+   ['Qty per unit','Number','csv: qty_per_unit · 6 desktops per BENCH-6'],
+   ['Tier','Single select','csv: tier · Standard · Better · Best'],
+   ['Status','Single select','Proposed → Checked in pCon → Confirmed → Dropped'],
+   ['pCon check','Single line text','csv: pcon_check · "OK in program oxi", "RENUMBERED: 1AG… codes"'],
+   ['Notes','Long text','csv: notes'],
+   ['Series projects (final)','Lookup','through Product → Series; feeds the Generics rollup'],
+   ['Confirmed by / on','Collaborator · Date','flow C sign-off'],
   ]},
- {id:'products',name:'Products',hue:'var(--c-prod)',n:'934 rows',role:'Every supplier article seen in a final drawing, with OFML code, size and EUR list price where pCon gave one.',
+ {id:'products',name:'Products',hue:'var(--c-prod)',n:'934 rows',role:'Every supplier article seen in a final drawing, with OFML code, size and EUR list price where pCon gave one. Maintained only by flow D.',
   fields:[
    ['Article','Single line text','primary · 111 045 170, ILLMV65SA00, EV211-…','pk'],
-   ['Product key','Single line text','LMOB|111045 (manufacturer + base article)'],
+   ['Product key','Single line text','LMOB|111045 (manufacturer + base article), the upsert key'],
    ['Description','Single line text','DESK W.160x80 ART.045'],
-   ['Manufacturer','Link → Manufacturers','','lk'],
-   ['Series','Link → Series','','lk'],
+   ['Series','Link → Series','manufacturer comes through as a lookup','lk'],
+   ['Manufacturer','Lookup','from Series'],
    ['Category','Single select','desk · task chair · lounge seating · storage · meeting table · occasional table · accessory · acoustic…'],
    ['W / D / H (cm)','Number','from pCon texts; empty for Interstuhl and sofas'],
    ['List price (EUR)','Currency','pCon catalogue price, not SAR sell price'],
    ['Price date','Date',''],
-   ['OFML variant code','Long text','Series.Model=OXI;… rebuilds the exact configuration in pCon'],
-   ['Finish notes','Long text','top finish, fabric, base'],
+   ['OFML variant code','Long text','Series.Model=OXI;… rebuilds the exact configuration in pCon (flow B)'],
    ['Projects (final)','Number','rule C, from product-stats'],
    ['Items (final)','Number','rule B'],
-   ['Typical','Checkbox / Formula','Projects (final) ≥ threshold'],
+   ['Final projects','Multiple select','the project names; filter "has any of" answers which projects include a sofa'],
+   ['Typical','Formula','Projects (final) ≥ 6'],
    ['Status','Single select','Active · Replaced · One-client only'],
    ['Used by generics','Link → Generic→Product','reverse link','lk'],
-   ['Projects','Link → Projects','finals that contain it','lk'],
    ['Image','Attachment','pCon preview'],
   ]},
- {id:'series',name:'Series',hue:'var(--c-prod)',n:'≈ 120 rows',role:'Product families (Oxi, Everyis1, 5th Element…) with their archive popularity.',
+ {id:'series',name:'Series',hue:'var(--c-prod)',n:'≈ 120 rows',role:'Product families (Oxi, Everyis1, 5th Element…) with their archive popularity. The evidence number every generic rolls up.',
   fields:[
    ['Series','Single line text','primary','pk'],
-   ['Manufacturer','Link → Manufacturers','','lk'],
+   ['Manufacturer','Single select','Las Mobili · Interstuhl · Inclass · B&T Design · Framery · Feltouch · MDD · Marelli · True Design · Kastel…'],
    ['Category','Single select','same list as Products'],
    ['Products','Link → Products','reverse link','lk'],
    ['Projects (final)','Number','49 Contenitori · 43 Everyis1 · 41 Oxi · 38 5th Element'],
    ['Items (final)','Number',''],
-   ['Rank by projects','Number',''],
-   ['Status','Single select','Active · Replaced (Kastel) · Watch'],
+   ['Status','Single select','Active · Replaced (Kastel → Las Mobili, 2026-10-09) · Watch'],
    ['Item file','URL','link to items/<category>/<series>.md'],
   ]},
- {id:'manufacturers',name:'Manufacturers',hue:'var(--c-prod)',n:'23 rows',role:'Suppliers in the archive and their share.',
-  fields:[
-   ['Name','Single line text','primary · Las Mobili, Interstuhl, Inclass, B&T Design, Framery…','pk'],
-   ['Status','Single select','Active · Replaced · Trial'],
-   ['Projects (final)','Number','65 Las Mobili · 55 Interstuhl · 33 Inclass'],
-   ['Share of items','Percent','45 % · 23 % · 21 %'],
-   ['Series','Link → Series','','lk'],
-   ['pCon catalogue','Checkbox','installed in pCon.planner'],
-   ['Notes','Long text','"Las Mobili replaces Kastel, 2026-10-09"'],
-  ]},
- {id:'projects',name:'Projects',hue:'var(--c-arch)',n:'77 rows',role:'Archive projects: the evidence behind every typical and product.',
+ {id:'projects',name:'Projects',hue:'var(--c-arch)',n:'77 rows',role:'Archive projects: the evidence behind every typical. Written by flow D, read when a typical cites where it was measured.',
   fields:[
    ['Project','Single line text','primary · AL JAZEERA BANK, ALSAD, SEDA…','pk'],
    ['Deal status','Single select','Won · Lost · Unknown'],
@@ -273,32 +324,20 @@ const T = [
    ['Drawings / Finals','Number',''],
    ['First / Last drawing','Date',''],
    ['Items (final)','Number',''],
-   ['Products','Link → Products','','lk'],
    ['Typicals measured','Link → Typicals','reverse of Measured from','lk'],
    ['Exclude','Checkbox','video sets, product lists, showroom'],
    ['Notes','Long text','Q1–Q5 answers from audit.md'],
   ]},
- {id:'rules',name:'Rules',hue:'var(--c-rule)',n:'≈ 60 rows',role:'Clearances, ratios and compliance items that typicals and generics must meet.',
-  fields:[
-   ['Rule','Single line text','primary · "Primary circulation ≥ 1.50 m"','pk'],
-   ['Group','Single select','Circulation · Chair zones · Storage · Fire & exits · Reception · Government · Acoustics · Planting'],
-   ['Value','Single line text','1.50 m / 1.80 m accessible'],
-   ['Source','Single select','[M] · [G] · [GOV] · SBC'],
-   ['Reference','Single line text','MHRSD p.70, SBC 801, rules/compliance.md'],
-   ['Binding for','Single select','All · Government only · Verify'],
-   ['Applies to typicals','Link → Typicals','','lk'],
-   ['Applies to generics','Link → Generics','','lk'],
-  ]},
 ];
 const LINKS = [ // [from, to, label]
  ['typicals','composition','1 → n'],['composition','generics','n → 1'],['generics','mapping','1 → n'],['mapping','products','n → 1'],
- ['products','series','n → 1'],['series','manufacturers','n → 1'],['typicals','projects','measured from'],['products','projects','used in'],
- ['rules','typicals',''],['rules','generics',''],
+ ['products','series','n → 1'],['typicals','projects','measured from'],
 ];
+const ORDER=['typicals','composition','generics','projects','products','mapping','series'];
 const grid=document.getElementById('grid');
-for(const t of T){
+for(const t of ORDER.map(id=>T.find(t=>t.id===id))){
   const c=document.createElement('div');c.className='card';c.id='card-'+t.id;c.style.setProperty('--hue',t.hue);
-  const keys=t.fields.filter(f=>f[3]==='pk'||f[3]==='lk'||['Name','Family','Category','Tier','Qty','Deal status','Projects (final)','Status','W / D / H (m)','Envelope W (m) / D (m)','Value'].includes(f[0])).slice(0,8);
+  const keys=t.fields.filter(f=>f[3]==='pk'||f[3]==='lk'||['Name','Family','Category','Tier','Qty','Deal status','Projects (final)','Status','Mapping status','W / D / H (m)','Envelope W (m) / D (m)','Final projects'].includes(f[0])).slice(0,8);
   c.innerHTML=`<div class="head"><h3>${t.name}</h3><span class="n">${t.n}</span></div><div class="role">${t.role}</div><ul>${keys.map(f=>`<li class="${f[3]||''}"><span>${f[0]}</span><span class="t">${f[1].replace('Link → ','→ ')}</span></li>`).join('')}</ul>`;
   grid.appendChild(c);
 }
